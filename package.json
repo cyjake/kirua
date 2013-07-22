@@ -1,0 +1,11 @@
+{
+  "name": "kirua",
+  "version": "0.1.0",
+  "author": "Chen Yicai <yicai.cyj@taobao.com>",
+  "dependencies": {
+    "commander": "~2.0.0"
+  },
+  "bin": {
+    "kirua": "bin/kirua"
+  }
+}

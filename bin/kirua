@@ -1,0 +1,36 @@
+#!/usr/bin/env node
+
+var program = require('commander')
+var join = require('path').join
+var fs = require('fs')
+
+
+var pkg = require(join(__dirname, '../package.json'))
+
+program.parse(process.argv)
+
+program
+  .version(pkg.version)
+
+program.on('--help', function() {
+  console.log('  Examples:')
+  console.log('')
+  console.log('    $ kirua start     # start server')
+  console.log('    $ kirua stop      # stop server')
+  console.log('    $ kirua restart   # restart server')
+  console.log('')
+})
+
+var cmd = program.args[0]
+
+if (!cmd) {
+  process.stdout.write(program.helpInformation());
+  program.emit('--help');
+  process.exit();
+}
+
+var args = process.argv.slice(3)
+
+if (fs.existsSync(join(__dirname, '../lib', cmd + '.js'))) {
+  require('../lib/' + cmd)(args)
+}
