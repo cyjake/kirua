@@ -2,3 +2,5 @@ node_modules
 *.log
 *.out
 *.sublime-workspace
+
+*.swp

@@ -2,25 +2,29 @@
 
 A express daemon manager based on cluster module and kill command.
 
+中文博文请猛击 [使用 mina 与 kirua 快速部署 express 应用](http://cyj.me/f2e/deploying-express-app/)
+
 ## Folder Structure
 
 Kirua requires the express project folder being structured like below:
 
-- app.js
-- log
-- tmp
-  - pids
+    .
+    ├── app.js
+    ├── log
+    └── tmp
+        └── pids
 
 When `kirua start`, the pid and log files will go to:
 
-- app.js
-- log
-  - :env.log
-- tmp
-  - pids
-    - master.pid
-    - worker.:id.pid
-    - worker.:id.pid
+    .
+    ├── app.js
+    ├── log
+    │   └── production.log
+    └── tmp
+        └── pids
+            ├── master.pid
+            ├── worker.1.pid
+            └── worker.2.pid
 
 The number of workers is determined by the number of your CPUs.
 
