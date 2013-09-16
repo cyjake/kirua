@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var spawn = require('child_process').spawn
 var join = require('path').join
 var fs = require('fs')
@@ -16,18 +18,14 @@ function cleanup() {
 }
 
 
-module.exports = function stop(args, fn) {
-  var pid = join(pidjar, 'master.pid')
+var pid = join(pidjar, 'master.pid')
+var proc
 
-  if (!fs.existsSync(pid)) return
-
+if (fs.existsSync(pid)) {
   pid = fs.readFileSync(pid, 'utf-8').trim()
-
-  var proc = spawn('kill', [pid], { stdio: 'inherit' })
-
+  proc = spawn('kill', [pid], { stdio: 'inherit' })
   proc.on('close', function killed(code) {
     if (code === 0) cleanup()
-    if (fn) fn(code)
 
     process.exit(code)
   })

@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+var spawn = require('child_process').spawn
+var join = require('path').join
+var fs = require('fs')
+
+
+var cwd = process.cwd()
+var env = process.env.NODE_ENV || 'development'
+
+var log = join(cwd, 'log', env + '.log')
+var out = fs.openSync(log, 'a')
+var err = fs.openSync(log, 'a')
+var args = process.argv.slice(2)
+
+args.unshift(join(__dirname, '../lib/cluster'))
+
+// require('child_process').fork somehow won't work.
+// According to the documentation, one must call proc.exit() manually
+// to exit the forked child process.
+// http://nodejs.org/api/child_process.html#child_process_child_process_fork_modulepath_args_options
+var proc = spawn(process.argv[0], args, {
+  detached: true,
+  stdio: ['ignore', out, err]
+})
+
+proc.unref()
