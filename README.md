@@ -39,8 +39,22 @@ the file will be production.log.
 
 ## Process Management
 
-- kirua start
-- kirua stop
-- kirua restart
+```bash
+➜  $ kirua
+
+  Usage: kirua [options]
+
+  Options:
+
+    -h, --help     output usage information
+    -V, --version  output the version number
+
+  Examples:
+
+    $ kirua start     # start server
+    $ kirua stop      # stop server
+    $ kirua restart   # restart server
+
+```
 
 That's it.
