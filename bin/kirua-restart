@@ -10,7 +10,7 @@ var args = process.argv.slice(3)
 var proc = spawn(stop, [], { stdio: 'inherit', customFds: [0, 1, 2] })
 
 proc.on('close', function(code) {
-  if (code === 0) {
-    var proc = spawn(start, args, { stdio: 'inherit', customFds: [0, 1, 2] })
-  }
+  if (code !== 0) console.log('failed to stop server.')
+
+  var proc = spawn(start, args, { stdio: 'inherit', customFds: [0, 1, 2] })
 })
