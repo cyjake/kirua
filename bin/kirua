@@ -8,10 +8,10 @@ var spawn = require('child_process').spawn
 
 var pkg = require(join(__dirname, '../package.json'))
 
-program.parse(process.argv)
-
 program
   .version(pkg.version)
+
+program.parse(process.argv)
 
 program.on('--help', function() {
   console.log('  Examples:')
