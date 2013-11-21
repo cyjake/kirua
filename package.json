@@ -6,6 +6,9 @@
     "commander": "~2.0.0",
     "mkdirp": "~0.3.5"
   },
+  "contributors": [
+    "Ye Lingzheng <lingzheng.yh@taobao.com>"
+  ],
   "bin": {
     "kirua": "bin/kirua"
   }

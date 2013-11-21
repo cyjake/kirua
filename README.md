@@ -57,11 +57,12 @@ the file will be production.log.
 
 ```
 
-That's it.
-
 ## Continuously Running
 
-As stated before, the number of workers is determined by the number of your CPUs. If anything goes wrong with your app, causing a worker being killed unexpectedly, kirua will fork a new worker. This keeps your app running continuously.
+As stated before, the number of workers is determined by the number of your
+CPUs. If anything goes wrong with your app, causing a worker being killed
+unexpectedly, kirua will fork a new worker. This keeps your app running
+continuously.
 
 If, for any reason, you want to kill a worker, use
 
