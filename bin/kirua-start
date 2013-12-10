@@ -3,25 +3,51 @@
 var spawn = require('child_process').spawn
 var join = require('path').join
 var fs = require('fs')
+var program = require('commander')
+var mkdirp = require('mkdirp').sync
+
+
+var env = process.env.NODE_ENV || 'development'
+
+program
+  .usage('[options] <app.js>')
+  .version(require('../package').version)
+  .option('-p, --port [port]', 'Specify the port of the server', parseInt, 7000)
+  .parse(process.argv)
 
 
 var cwd = process.cwd()
-var env = process.env.NODE_ENV || 'development'
+var pidjar = join(cwd, 'tmp/pids')
+var logjar = 'log'
 
-var log = join(cwd, 'log', env + '.log')
+mkdirp(pidjar)
+mkdirp(logjar)
+
+var cwd = process.cwd()
+var log = join(cwd, logjar, env + '.log')
 var out = fs.openSync(log, 'a')
 var err = fs.openSync(log, 'a')
-var args = process.argv.slice(2)
 
-args.unshift(join(__dirname, '../lib/cluster'))
+if (fs.existsSync(join(pidjar, 'master.pid'))) {
+  console.log('Server started already.')
+  process.exit(0)
+}
 
-// require('child_process').fork somehow won't work.
-// According to the documentation, one must call proc.exit() manually
-// to exit the forked child process.
-// http://nodejs.org/api/child_process.html#child_process_child_process_fork_modulepath_args_options
-var proc = spawn(process.argv[0], args, {
+var cluster = join(__dirname, '../lib/kirua.js')
+var script = join(cwd, program.args.pop() || 'app.js')
+
+var proc = spawn(process.execPath, [cluster, script], {
   detached: true,
-  stdio: ['ignore', out, err]
+  stdio: ['ipc', out, err]
 })
 
-proc.unref()
+proc.on('message', function(data) {
+  if (data === 'done') {
+    console.log('Server started.')
+    proc.unref()
+    process.exit(0)
+  }
+  else {
+    console.log(data)
+  }
+})

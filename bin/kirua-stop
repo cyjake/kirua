@@ -12,7 +12,6 @@ function cleanup() {
 
   pids.forEach(function(pid) {
     pid = join(pidjar, pid)
-
     if (fs.existsSync(pid)) fs.unlinkSync(pid)
   })
 }
@@ -25,8 +24,7 @@ if (fs.existsSync(pid)) {
   pid = fs.readFileSync(pid, 'utf-8').trim()
   proc = spawn('kill', [pid], { stdio: 'inherit' })
   proc.on('close', function killed(code) {
-    if (code === 0) cleanup()
-
+    cleanup()
     process.exit(code)
   })
 }
