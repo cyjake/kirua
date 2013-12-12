@@ -44,16 +44,7 @@ if (!fs.existsSync(script)) {
 
 var proc = spawn(process.execPath, [cluster, script], {
   detached: true,
-  stdio: ['ipc', out, err]
+  stdio: ['ignore', out, err]
 })
 
-proc.on('message', function(data) {
-  if (data === 'done') {
-    console.log('Server started.')
-    proc.unref()
-    process.exit(0)
-  }
-  else {
-    console.log(data)
-  }
-})
+proc.unref()

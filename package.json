@@ -1,6 +1,6 @@
 {
   "name": "kirua",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "author": "Chen Yicai <yicai.cyj@taobao.com>",
   "dependencies": {
     "commander": "~2.0.0",
